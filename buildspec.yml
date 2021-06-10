@@ -16,6 +16,8 @@ phases:
       - docker-compose up -d
   build:
     commands:
+      - docker ps -a
+      - docker container ls
       - docker exec docker-compose_web_1 pwd
       - docker exec docker-compose_web_1 ls -la /var/www/html
       - echo "test build"

@@ -9,6 +9,7 @@ phases:
       - docker -v
       - docker-compose -v
       - groups
+      - printenv | sed 's/=\(.*\)/="\1"/' > .env
       - docker-compose up -d
   build:
     commands:

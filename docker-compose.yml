@@ -2,8 +2,15 @@ version: "3.3"  # optional since v1.27.0
 services:
   web:
     image: 391634500132.dkr.ecr.eu-central-1.amazonaws.com/laravel_8:latest
+    command:
+      - pwd
+      - ls -la /var/www/html
+      - php artisan key:generate
+      - php artisan migrate:fresh
     ports:
       - "443:443"
+    volumes:
+      - /var/www/html:/var/www/html
     links:
       - mysql
   mysql:

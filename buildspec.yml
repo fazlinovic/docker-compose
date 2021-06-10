@@ -9,7 +9,7 @@ phases:
       - docker -v
       - docker-compose -v
       - groups
-      - docker-compose --verbose up -d
+      - docker-compose up -d
   build:
     commands:
       - echo "test build"

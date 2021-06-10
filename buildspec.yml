@@ -5,6 +5,8 @@ phases:
     commands:
       - docker -v
       - docker-compose -v
+      - service docker status
+      - groups
       - docker-compose --verbose up -d
   build:
     commands:

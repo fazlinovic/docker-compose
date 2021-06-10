@@ -1,7 +1,7 @@
 version: "3.3"  # optional since v1.27.0
 services:
   web:
-    build: 391634500132.dkr.ecr.eu-central-1.amazonaws.com/laravel_8:latest
+    image: 391634500132.dkr.ecr.eu-central-1.amazonaws.com/laravel_8:latest
     ports:
       - "443:443"
     links:

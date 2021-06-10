@@ -9,6 +9,8 @@ phases:
       - docker -v
       - docker-compose -v
       - groups
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - printenv | sed 's/=\(.*\)/="\1"/' > .env
       - docker-compose up -d
   build:

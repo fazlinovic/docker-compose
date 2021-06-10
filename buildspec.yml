@@ -3,6 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - docker -v
+      - docker-compose -v
       - docker-compose --verbose up -d
   build:
     commands:

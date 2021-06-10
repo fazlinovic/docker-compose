@@ -8,7 +8,6 @@ phases:
     commands:
       - docker -v
       - docker-compose -v
-      - systemctl status docker
       - groups
       - docker-compose --verbose up -d
   build:

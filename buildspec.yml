@@ -29,5 +29,14 @@ phases:
       - docker exec docker-compose_web_1 npm install
       - docker exec docker-compose_web_1 php artisan key:generate
       - docker exec docker-compose_web_1 php artisan migrate:fresh
+      - docker exec docker-compose_web_1 php artisan db:seed
+      - docker exec docker-compose_web_1 php artisan db:seed --class=OauthClientsTableSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=UsersTableSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=DevicesTableSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=AppsTableSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=LicensesTableSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=RolesAndPermissionsSeeder
+      - docker exec docker-compose_web_1 php artisan passport:install
+      - docker exec docker-compose_web_1 php artisan config:clear
       - echo "test build"
 

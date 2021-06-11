@@ -27,5 +27,6 @@ phases:
       - docker exec docker-compose_web_1 composer install
       - docker exec docker-compose_web_1 npm install
       - docker exec docker-compose_web_1 php artisan key:generate
+      - docker exec docker-compose_web_1 php artisan migrate:fresh
       - echo "test build"
 

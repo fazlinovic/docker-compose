@@ -20,5 +20,6 @@ phases:
       - docker container ls
       - docker exec docker-compose_web_1 pwd
       - docker exec docker-compose_web_1 ls -la /var/www/html
+      - docker exec docker-compose_web_1 cat .env
       - echo "test build"
 

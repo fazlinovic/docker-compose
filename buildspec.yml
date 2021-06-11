@@ -57,5 +57,7 @@ phases:
       - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_city_index\` ON \`"$COUCHBASE_BUCKET"\`(\`city\`);"
       - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inspection_signature_index\` ON \`"$COUCHBASE_BUCKET"\`(\`signature_inspector\`,\`signature_customer\`) WHERE (\`eloquent_type\` = \"inspections\");"
       - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inventory_item_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`inventory_item_id\`);"
+      # Run PHPUnit tests
+      - docker exec docker-compose_web_1  ./vendor/phpunit/phpunit/phpunit tests --debug
 
       - echo "test build"

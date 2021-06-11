@@ -7,6 +7,7 @@ services:
     restart: always
     volumes:
       - ${PWD}/.env:/var/www/html/.env
+      - ${PWD}/source-code.zip:/var/www/html/source-code.zip
     links:
       - mysql
   mysql:

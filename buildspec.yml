@@ -24,8 +24,8 @@ phases:
       - docker exec docker-compose_web_1 ls -la /var/www/html
       - docker exec docker-compose_web_1 cat .env
       - docker exec docker-compose_web_1 unzip source-code.zip
-      - composer install
-      - npm install
-      - php artisan key:generate
+      - docker exec docker-compose_web_1 composer install
+      - docker exec docker-compose_web_1 npm install
+      - docker exec docker-compose_web_1 php artisan key:generate
       - echo "test build"
 

@@ -22,5 +22,11 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
+  couchbase:
+    image: couchbase:6.6.2
+    restart: always
+    ports:
+      - "8091-8096:8091-8096"
+      - "11210-11211:11210-11211"
 volumes:
   db_data: {}

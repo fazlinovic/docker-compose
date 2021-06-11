@@ -38,5 +38,6 @@ phases:
       - docker exec docker-compose_web_1 php artisan db:seed --class=RolesAndPermissionsSeeder
       - docker exec docker-compose_web_1 php artisan passport:install
       - docker exec docker-compose_web_1 php artisan config:clear
+      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-username=Administrator --cluster-password=password --cluster-port=8091 --cluster-index-ramsize=256 --cluster-fts-ramsize=256 --cluster-ramsize=2048 --services=data,index,query,fts
       - echo "test build"
 

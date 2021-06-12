@@ -21,6 +21,9 @@ phases:
     commands:
       - docker ps -a
       - docker container ls
+      - docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-compose_web_1
+      - docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-compose_mysql_1
+      - docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-compose_couchbase_1
       - docker exec docker-compose_web_1 pwd
       - docker exec docker-compose_web_1 ls -la /var/www/html
       - docker exec docker-compose_web_1 cat .env
@@ -58,6 +61,11 @@ phases:
       - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inspection_signature_index\` ON \`"$COUCHBASE_BUCKET"\`(\`signature_inspector\`,\`signature_customer\`) WHERE (\`eloquent_type\` = \"inspections\");"
       - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inventory_item_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`inventory_item_id\`);"
       # Run PHPUnit tests
-      - docker exec docker-compose_web_1  ./vendor/phpunit/phpunit/phpunit tests --debug
+      - docker exec docker-compose_web_1 ./vendor/phpunit/phpunit/phpunit tests --debug
+      # Run Frontend Vue.js tests
+      - docker exec docker-compose_web_1 npm test
+      - docker exec docker-compose_web_1 php artisan db:seed --class=TeamsDummyDataSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=StoragePlanSeeder
+      - docker exec docker-compose_web_1 php artisan db:seed --class=InspectionUsageServicePlanSeeder
 
       - echo "test build"

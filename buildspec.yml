@@ -27,7 +27,7 @@ phases:
       - docker exec docker-compose_web_1 pwd
       - docker exec docker-compose_web_1 ls -la /var/www/html
       - docker exec docker-compose_web_1 cat .env
-      - docker exec docker-compose_web_1 unzip -q source-code.zip
+      - docker exec docker-compose_web_1 unzip -q -o source-code.zip
       - docker exec docker-compose_web_1 composer install
       - docker exec docker-compose_web_1 npm install
       - docker exec docker-compose_web_1 php artisan key:generate

@@ -69,3 +69,7 @@ phases:
       - docker exec docker-compose_web_1 php artisan db:seed --class=InspectionUsageServicePlanSeeder
 
       - echo "test build"
+cache:
+  paths:
+    - '/root/.m2/**/*'
+    - '/root/.npm/**/*'

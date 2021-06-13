@@ -43,7 +43,7 @@ phases:
       - docker exec docker-compose_web_1 php artisan config:clear
       # Init Couchbase cluster
       - docker exec docker-compose_couchbase_1 chmod +x /usr/local/bin/couchbase-cluster-init.sh
-      - docker exec docker-compose_couchbase_1 /usr/local/bin/couchbase-cluster-init.sh -h 127.0.0.1 -u=Administrator -p=password -b=$COUCHBASE_BUCKET -s=$COUCHBASE_DB_USERNAME -a=$COUCHBASE_DB_PASSWORD
+      - docker exec docker-compose_couchbase_1 /usr/local/bin/couchbase-cluster-init.sh -h=127.0.0.1 -u=Administrator -p=password -b=$COUCHBASE_BUCKET -s=$COUCHBASE_DB_USERNAME -a=$COUCHBASE_DB_PASSWORD
       #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-username=Administrator --cluster-password=password --cluster-port=8091 --cluster-index-ramsize=256 --cluster-fts-ramsize=512 --cluster-ramsize=2048 --services=data,index,query,fts
       # Create Couchbase bucket
       #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 -u Administrator -p password --wait --bucket=$COUCHBASE_BUCKET --bucket-type=couchbase --bucket-ramsize=256  --bucket-replica=0

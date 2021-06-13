@@ -42,24 +42,25 @@ phases:
       - docker exec docker-compose_web_1 php artisan passport:install
       - docker exec docker-compose_web_1 php artisan config:clear
       # Init Couchbase cluster
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-username=Administrator --cluster-password=password --cluster-port=8091 --cluster-index-ramsize=256 --cluster-fts-ramsize=512 --cluster-ramsize=2048 --services=data,index,query,fts
+      - docker exec docker-compose_couchbase_1 /usr/local/bin/couchbase-cluster-init.sh -h 127.0.0.1 -u=Administrator -p=password -b=$COUCHBASE_BUCKET -s=$COUCHBASE_DB_USERNAME -a=$COUCHBASE_DB_PASSWORD
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli cluster-init -c 127.0.0.1:8091 --cluster-username=Administrator --cluster-password=password --cluster-port=8091 --cluster-index-ramsize=256 --cluster-fts-ramsize=512 --cluster-ramsize=2048 --services=data,index,query,fts
       # Create Couchbase bucket
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 -u Administrator -p password --wait --bucket=$COUCHBASE_BUCKET --bucket-type=couchbase --bucket-ramsize=256  --bucket-replica=0
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli bucket-create -c 127.0.0.1:8091 -u Administrator -p password --wait --bucket=$COUCHBASE_BUCKET --bucket-type=couchbase --bucket-ramsize=256  --bucket-replica=0
       # Create Couchbase user
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set --rbac-username $COUCHBASE_DB_USERNAME --rbac-password $COUCHBASE_DB_PASSWORD --roles bucket_full_access[$COUCHBASE_BUCKET] --auth-domain local
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/couchbase-cli user-manage -c 127.0.0.1:8091 -u Administrator -p password --set --rbac-username $COUCHBASE_DB_USERNAME --rbac-password $COUCHBASE_DB_PASSWORD --roles bucket_full_access[$COUCHBASE_BUCKET] --auth-domain local
       # Create Couchbase primary and GSI indices
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE PRIMARY INDEX ON \`"$COUCHBASE_BUCKET"\` USING GSI;"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_creator_index\` ON \`"$COUCHBASE_BUCKET"\`(\`creator\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_composite_index\` ON \`"$COUCHBASE_BUCKET"\`(\`eloquent_type\`,\`team_id\`,\`deleted_at\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_deleted_at_index\` ON \`"$COUCHBASE_BUCKET"\`(\`deleted_at\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inspection_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`inspection_id\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_team_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`team_id\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_document_type_index\` ON \`"$COUCHBASE_BUCKET"\`(\`document_type\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_eloquent_type_index\` ON \`"$COUCHBASE_BUCKET"\`(\`eloquent_type\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_type_index\` ON \`"$COUCHBASE_BUCKET"\`(\`type\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_city_index\` ON \`"$COUCHBASE_BUCKET"\`(\`city\`);"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inspection_signature_index\` ON \`"$COUCHBASE_BUCKET"\`(\`signature_inspector\`,\`signature_customer\`) WHERE (\`eloquent_type\` = \"inspections\");"
-      - docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inventory_item_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`inventory_item_id\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE PRIMARY INDEX ON \`"$COUCHBASE_BUCKET"\` USING GSI;"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_creator_index\` ON \`"$COUCHBASE_BUCKET"\`(\`creator\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_composite_index\` ON \`"$COUCHBASE_BUCKET"\`(\`eloquent_type\`,\`team_id\`,\`deleted_at\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_deleted_at_index\` ON \`"$COUCHBASE_BUCKET"\`(\`deleted_at\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inspection_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`inspection_id\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_team_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`team_id\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_document_type_index\` ON \`"$COUCHBASE_BUCKET"\`(\`document_type\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_eloquent_type_index\` ON \`"$COUCHBASE_BUCKET"\`(\`eloquent_type\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_type_index\` ON \`"$COUCHBASE_BUCKET"\`(\`type\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_city_index\` ON \`"$COUCHBASE_BUCKET"\`(\`city\`);"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inspection_signature_index\` ON \`"$COUCHBASE_BUCKET"\`(\`signature_inspector\`,\`signature_customer\`) WHERE (\`eloquent_type\` = \"inspections\");"
+      #- docker exec docker-compose_couchbase_1 /opt/couchbase/bin/cbq -e 127.0.0.1:8093 -u Administrator -p password --script "CREATE INDEX \`def_inventory_item_id_index\` ON \`"$COUCHBASE_BUCKET"\`(\`inventory_item_id\`);"
       # Run PHPUnit tests
       - docker exec docker-compose_web_1 ./vendor/phpunit/phpunit/phpunit tests --debug
       # Run Frontend Vue.js tests

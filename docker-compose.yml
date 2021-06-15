@@ -44,3 +44,10 @@ services:
       - ${PWD}/couchbase-cluster-init.sh:/usr/local/bin/couchbase-cluster-init.sh
 volumes:
   db_data: {}
+networks:
+  docker-compose_default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1

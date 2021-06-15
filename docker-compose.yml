@@ -4,6 +4,9 @@ services:
     image: 391634500132.dkr.ecr.eu-central-1.amazonaws.com/laravel_8:latest
     ports:
       - "443:443"
+    networks:
+      docker-compose_default:
+        ipv4_address: 172.18.0.4
     restart: always
     volumes:
       - ${PWD}/.env:/var/www/html/.env
@@ -25,12 +28,18 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
+    networks:
+      docker-compose_default:
+        ipv4_address: 172.18.0.2
   couchbase:
     image: couchbase:6.6.2
     restart: always
     ports:
       - "8091-8096:8091-8096"
       - "11210-11211:11210-11211"
+    networks:
+      docker-compose_default:
+        ipv4_address: 172.18.0.3
     volumes:
       - ${PWD}/couchbase-cluster-init.sh:/usr/local/bin/couchbase-cluster-init.sh
 volumes:
